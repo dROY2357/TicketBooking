@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Express 101",
+    "departureTime": "10:00 AM",
+    "arrivalTime": "08:00 PM",
+    "fare": 2000
+  },
+  {
+    "id": 2,
+    "name": "Superfast 202",
+    "departureTime": "2:00 PM",
+    "arrivalTime": "06:00 AM",
+    "fare": 3000
+  }
+]
