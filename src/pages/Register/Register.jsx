@@ -1,10 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import useForm from "../../hooks/useForm";
+import {
+  toastSuccess,
+  toastError,
+  ToastContainer,
+} from "../../utils/reactToastifyConf";
 import styles from "./Register.module.css"; //Import CSS module
 
 const Register = () => {
-  const handleSubmit = async (e) => {};
-  const handleChange = async (e) => {};
+  const [formData, handleChange] = useForm({});
+  const auth = getAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, formData.email, formData.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        return sendEmailVerification(user);
+      })
+      .then((result) => {
+        toastSuccess("User registerd successfully... Please verify email ");
+      })
+      .catch((error) => {
+        toastError(`Error registering user ${error.message}`);
+      });
+  };
   return (
     <div className={styles.container}>
       <Navbar />
@@ -38,6 +64,7 @@ const Register = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,10 +1,42 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import { AuthContext } from "../../contexts/AuthContext";
+import useForm from "../../hooks/useForm";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from "../../config/firebaseConf";
 import styles from "./Login.module.css"; // Import CSS Module
+import {
+  toastSuccess,
+  toastError,
+  toastInfo,
+  ToastContainer,
+} from "../../utils/reactToastifyConf";
 
 const Login = () => {
-  const handleLogin = async (e) => {};
-  const handleChange = async (e) => {};
+  const { loginUser } = useContext(AuthContext);
+  const [formData, handleChange] = useForm({});
+  const auth = getAuth(app);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+      // Check if email is verified
+      if (user.emailVerified) {
+        toastSuccess("Login successful! Welcome.");
+        loginUser(user);
+      } else {
+        toastInfo("Please verify your email before logging in.");
+      }
+    } catch (error) {
+      toastError(error.message);
+    }
+  };
   return (
     <div className={styles.container}>
       <Navbar />
@@ -29,6 +61,7 @@ const Login = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
