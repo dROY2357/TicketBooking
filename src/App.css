@@ -11,7 +11,7 @@ body {
 }
 
 h2 {
-  color: #003366;
+  color: #052c00fd;
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
@@ -50,7 +50,7 @@ form {
 
 button[type="submit"] {
   margin: auto;
-  background-color: #003366;
+  background-color: #149900fd;
   color: white;
   padding: 12px;
   border: none;
@@ -61,7 +61,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #005b99;
+  background-color: #18b001;
 }
 
 @media (max-width: 768px) {

@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { AuthContext } from "../../contexts/AuthContext";
 import useForm from "../../hooks/useForm";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import app from "../../config/firebaseConf";
 import styles from "./Login.module.css"; // Import CSS Module
 import {
@@ -21,20 +26,26 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      const user = userCredential.user;
-      // Check if email is verified
-      if (user.emailVerified) {
-        toastSuccess("Login successful! Welcome.");
-        loginUser(user);
-        navigate("/");
-      } else {
-        toastInfo("Please verify your email before logging in.");
-      }
+      setPersistence(auth, browserLocalPersistence)
+        .then(async () => {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            formData.email,
+            formData.password
+          );
+          const user = userCredential.user;
+          // Check if email is verified
+          if (user.emailVerified) {
+            toastSuccess("Login successful! Welcome.");
+            loginUser(user);
+            navigate("/");
+          } else {
+            toastInfo("Please verify your email before logging in.");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       toastError(error.message);
     }

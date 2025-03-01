@@ -18,7 +18,7 @@
 
 .trainCard h3 {
   margin-top: 0;
-  color: #007bff;
+  color: #18b001;
 }
 
 .trainCard p {
@@ -26,7 +26,7 @@
 }
 
 button {
-  background-color: #007bff;
+  background-color: #149900fd;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -35,5 +35,5 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #18b001;
 }
