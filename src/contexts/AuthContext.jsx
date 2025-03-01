@@ -1,4 +1,9 @@
 import React, { createContext, useState } from "react";
+import {
+  toastSuccess,
+  toastError,
+  toastInfo,
+} from "../utils/reactToastifyConf";
 
 const AuthContext = createContext();
 
@@ -6,12 +11,11 @@ const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const loginUser = (user) => {
-    console.log(`User ${user.uid} logged in successfully!`);
     setLoggedInUser(user);
   };
 
   const logoutUser = (user) => {
-    console.log(`User ${user.uid} logged out successfully!`);
+    toastInfo("You have been logged out.");
     setLoggedInUser(null);
   };
 

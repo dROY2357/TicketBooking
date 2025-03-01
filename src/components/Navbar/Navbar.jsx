@@ -25,7 +25,12 @@ const Navbar = () => {
         {loggedInUser && (
           <>
             <li>
-              <Link onClick={logoutUser}> Logout</Link>
+              <Link to="/history"> History</Link>
+            </li>
+            <li>
+              <Link onClick={logoutUser} to="/">
+                Logout
+              </Link>
             </li>
           </>
         )}

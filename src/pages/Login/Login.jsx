@@ -9,7 +9,6 @@ import {
   toastSuccess,
   toastError,
   toastInfo,
-  ToastContainer,
 } from "../../utils/reactToastifyConf";
 import { useNavigate } from "react-router-dom";
 
@@ -64,7 +63,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

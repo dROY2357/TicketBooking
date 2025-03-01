@@ -6,11 +6,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import useForm from "../../hooks/useForm";
-import {
-  toastSuccess,
-  toastError,
-  ToastContainer,
-} from "../../utils/reactToastifyConf";
+import { toastSuccess, toastError } from "../../utils/reactToastifyConf";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css"; //Import CSS module
 
@@ -67,7 +63,6 @@ const Register = () => {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
