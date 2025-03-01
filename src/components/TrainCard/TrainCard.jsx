@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "./Traincard.module.css";
+import styled from "./TrainCard.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Traincard = ({ train, date }) => {
