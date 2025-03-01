@@ -2,21 +2,71 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import useForm from "../../hooks/useForm";
 import styles from "./BookingPage.module.css";
-import trainData from "../../data/trainData.json";
+import { useLocation } from "react-router-dom";
+import {
+  getFirestore,
+  doc,
+  updateDoc,
+  getDoc,
+  setDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import app from "../../config/firebaseConf";
 
 const BookingPage = () => {
-  const trainInfo = trainData[0];
+  const location = useLocation();
+  const trainInfo = location.state.train;
   const [formData, handleChange] = useForm({
     name: trainInfo.name,
-    from: "BLR",
-    to: "KOL",
+    from: trainInfo.from,
+    to: trainInfo.to,
     fare: trainInfo.fare,
     passengers: 1,
   });
 
   const [message, setMessage] = useState(""); //State to manage form submit result message
 
-  const handleBookingSubmit = async (e) => {};
+  const db = getFirestore();
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+  console.log("current user", auth.currentUser);
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      setMessage("User is not authenticated. Please log in.");
+      return;
+    }
+
+    try {
+      const booking = {
+        bookingId: `b${Date.now()}`,
+        date: location.state.date,
+        ...formData,
+      };
+
+      const userDocRef = doc(db, "users", user.uid);
+
+      // Check if the document exists
+      const userDocSnap = await getDoc(userDocRef);
+      if (!userDocSnap.exists()) {
+        // Create a new user document if it doesn't exist
+        await setDoc(userDocRef, { bookings: [booking] });
+      } else {
+        // Update the existing document
+        await updateDoc(userDocRef, {
+          bookings: arrayUnion(booking),
+        });
+      }
+
+      setMessage("Booking saved successfully!");
+    } catch (error) {
+      console.error("Error saving booking: ", error);
+      setMessage("Failed to save booking.");
+    }
+  };
 
   return (
     <div className={styles.container}>

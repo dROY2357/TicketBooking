@@ -11,8 +11,10 @@ import {
   toastInfo,
   ToastContainer,
 } from "../../utils/reactToastifyConf";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { loginUser } = useContext(AuthContext);
   const [formData, handleChange] = useForm({});
   const auth = getAuth(app);
@@ -30,6 +32,7 @@ const Login = () => {
       if (user.emailVerified) {
         toastSuccess("Login successful! Welcome.");
         loginUser(user);
+        navigate("/");
       } else {
         toastInfo("Please verify your email before logging in.");
       }

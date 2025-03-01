@@ -11,9 +11,11 @@ import {
   toastError,
   ToastContainer,
 } from "../../utils/reactToastifyConf";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css"; //Import CSS module
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, handleChange] = useForm({});
   const auth = getAuth();
 
@@ -26,6 +28,7 @@ const Register = () => {
       })
       .then((result) => {
         toastSuccess("User registerd successfully... Please verify email ");
+        navigate("login");
       })
       .catch((error) => {
         toastError(`Error registering user ${error.message}`);

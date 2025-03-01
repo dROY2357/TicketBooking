@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "./Traincard.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Traincard = ({ train, date }) => {
+  const navigate = useNavigate();
   const proceedToBooking = (train, date) => {
     console.log(train, date);
+    navigate("booking", { state: { train, date } });
   };
   return (
     <div className={styled.trainCard}>
